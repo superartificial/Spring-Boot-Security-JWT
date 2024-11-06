@@ -38,7 +38,11 @@ public class SecurityConfig {
 
         // builder pattern
         return http.csrf(customizer -> customizer.disable())
-                .authorizeHttpRequests(request -> request.anyRequest().authenticated())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers("register", "login")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
